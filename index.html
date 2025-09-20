@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>No Error Zero Degree Studio</title>
+    <title>No Error Zero Degree Studio | 专业游戏与软件开发</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -11,95 +12,485 @@
             box-sizing: border-box;
         }
         
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-align: center;
+        :root {
+            --primary: #2a2d43;
+            --secondary: #ff6b6b;
+            --accent: #4ecdc4;
+            --light: #f7f9ff;
+            --dark: #1a1c2b;
         }
         
-        .container {
-            background: rgba(255, 255, 255, 0.1);
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            background: rgba(26, 28, 43, 0.95);
             backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .logo {
-            font-size: 3.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-            font-weight: 300;
-        }
-        
-        .tagline {
-            font-size: 1.5rem;
-            margin: 2rem 0;
-            font-style: italic;
-        }
-        
-        .features {
             display: flex;
-            justify-content: center;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background: var(--light);
+            margin: 3px 0;
+            transition: all 0.3s;
+        }
+        
+        /* 主内容区域 */
+        .hero {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ff6b6b" fill-opacity="0.1" d="M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,224C672,235,768,181,864,165.3C960,149,1056,171,1152,181.3C1248,192,1344,192,1392,192L1440,192L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--light) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+        
+        /* 服务部分 */
+        .services {
+            padding: 5rem 2rem;
+            background: rgba(247, 249, 255, 0.03);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.2rem;
+        }
+        
+        .section-title span {
+            color: var(--accent);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
-        .feature {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 1rem 1.5rem;
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
-            min-width: 120px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        @media (max-width: 600px) {
-            .container {
-                padding: 2rem;
-                margin: 1rem;
+        .service-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .service-card i {
+            font-size: 3rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* 项目展示 */
+        .projects {
+            padding: 5rem 2rem;
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .project-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .project-img {
+            height: 200px;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .project-img i {
+            font-size: 4rem;
+            color: white;
+            opacity: 0.8;
+        }
+        
+        .project-content {
+            padding: 1.5rem;
+        }
+        
+        .project-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--dark);
+            padding: 3rem 2rem;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .footer-section p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--light);
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background: var(--dark);
+                padding: 1rem 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
             }
             
-            .logo {
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem 2rem;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .hero h1 {
                 font-size: 2.5rem;
             }
             
-            .features {
-                flex-direction: column;
-                gap: 1rem;
+            .hero p {
+                font-size: 1rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">No error Zero Degree Studio</div>
-        <div class="subtitle">无差零度工作室</div>
-        
-        <div class="tagline">"从零开始，完美呈现"</div>
-        
-        <div class="features">
-            <div class="feature">创意设计</div>
-            <div class="feature">前端开发</div>
-            <div class="feature">数字艺术</div>
-            <div class="feature">游戏开发</div>
-            <div class="feature">程序开发</div>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">No Error <span>Zero Degree</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="products.html">产品</a></li>
+            <li><a href="introduction.html">介绍</a></li>
+            <li><a href="about.html">关于我们</a></li>
+        </ul>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
-    </div>
-    <br>
-    <br>
-    <a href="about.html">关于我们</a>
+    </nav>
+
+    <!-- 主内容区域 -->
+    <section class="hero">
+        <h1>创新科技，塑造未来</h1>
+        <p>No Error Zero Degree Studio 是一家专注于游戏开发、软件创新和数字解决方案的工作室，致力于为客户提供卓越的技术服务和创意体验。</p>
+        <a href="about.html" class="cta-button">了解更多</a>
+    </section>
+
+    <!-- 服务部分 -->
+    <section class="services">
+        <h2 class="section-title">我们的<span>服务</span></h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-gamepad"></i>
+                <h3>游戏开发</h3>
+                <p>从概念到发布，我们打造引人入胜的游戏体验，涵盖移动端、PC和主机平台。</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-code"></i>
+                <h3>软件开发</h3>
+                <p>定制化软件解决方案，满足企业特定需求，提升工作效率和业务价值。</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-paint-brush"></i>
+                <h3>UI/UX设计</h3>
+                <p>以用户为中心的设计方法，创造直观、美观且高效的界面体验。</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>应用开发</h3>
+                <p>开发高性能的移动应用程序，为iOS和Android平台提供原生和跨平台解决方案。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目展示 -->
+    <section class="projects">
+        <h2 class="section-title">精选<span>项目</span></h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-img">
+                    <i class="fas fa-dragon"></i>
+                </div>
+                <div class="project-content">
+                    <h3>龙之传说</h3>
+                    <p>一款沉浸式角色扮演游戏，拥有精美的画面和丰富的故事情节。</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="project-content">
+                    <h3>企业数据分析平台</h3>
+                    <p>为企业提供实时数据分析和可视化解决方案，助力业务决策。</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-img">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="project-content">
+                    <h3>AI助手应用</h3>
+                    <p>智能助手应用程序，利用人工智能技术提升日常生活效率。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>No Error Zero Degree Studio 是一家创新科技公司，专注于游戏开发、软件解决方案和数字体验设计。</p>
+                <p>我们的使命是通过技术创造卓越的数字体验。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="products.html">产品</a></li>
+                    <li><a href="introduction.html">介绍</a></li>
+                    <li><a href="about.html">关于我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 北京市海淀区科技园区88号</p>
+                <p><i class="fas fa-phone"></i> +86 10 8888 8888</p>
+                <p><i class="fas fa-envelope"></i> info@noerrorzerodegree.com</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-weibo"></i></a>
+                    <a href="#"><i class="fab fa-weixin"></i></a>
+                    <a href="#"><i class="fab fa-qq"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 No Error Zero Degree Studio. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <script>
+        // 汉堡菜单交互
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // 点击页面其他区域关闭菜单
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
