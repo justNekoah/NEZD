@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 | No Error Zero Degree Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #2a2d43;
+            --secondary: #ff6b6b;
+            --accent: #4ecdc4;
+            --light: #f7f9ff;
+            --dark: #1a1c2b;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: var(--light);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            background: rgba(26, 28, 43, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background: var(--light);
+            margin: 3px 0;
+            transition: all 0.3s;
+        }
+        
+        /* 登录注册容器 */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 2rem;
+        }
+        
+        .auth-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .auth-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--light) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .auth-header p {
+            opacity: 0.8;
+        }
+        
+        .auth-form .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .auth-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .auth-form input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .auth-form input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+        }
+        
+        .auth-form input.error {
+            border-color: var(--secondary);
+        }
+        
+        .error-message {
+            color: var(--secondary);
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        
+        .password-toggle {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .auth-submit {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .auth-submit:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .auth-switch a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--dark);
+            padding: 3rem 2rem;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .footer-section p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--light);
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background: var(--dark);
+                padding: 1rem 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem 2rem;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .auth-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">No Error <span>Zero Degree</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="products.html">产品</a></li>
+            <li><a href="introduction.html">介绍</a></li>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="login.html">登录</a></li>
+            <li><a href="register.html">注册</a></li>
+        </ul>
+        <div class="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </nav>
+
+    <!-- 注册表单 -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>创建账号</h2>
+                <p>请填写以下信息完成注册</p>
+            </div>
+            
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label for="registerUsername">用户名</label>
+                    <input type="text" id="registerUsername" name="username" required>
+                    <div class="error-message" id="usernameError">用户名至少需要5个字符</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="registerEmail">电子邮箱</label>
+                    <input type="email" id="registerEmail" name="email" required>
+                    <div class="error-message" id="emailError">请输入有效的电子邮箱</div>
+                </div>
+                
+                <div class="form-group password-toggle">
+                    <label for="registerPassword">密码</label>
+                    <input type="password" id="registerPassword" name="password" required>
+                    <span class="toggle-password" id="toggleRegisterPassword">
+                        <i class="far fa-eye"></i>
+                    </span>
+                    <div class="error-message" id="passwordError">密码至少需要6位，包含字母和数字</div>
+                </div>
+                
+                <div class="form-group password-toggle">
+                    <label for="confirmPassword">确认密码</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <span class="toggle-password" id="toggleConfirmPassword">
+                        <i class="far fa-eye"></i>
+                    </span>
+                    <div class="error-message" id="confirmPasswordError">两次输入的密码不一致</div>
+                </div>
+                
+                <button type="submit" class="auth-submit">注册</button>
+            </form>
+            
+            <div class="auth-switch">
+                已有账号？<a href="login.html">立即登录</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>No Error Zero Degree Studio 是一家创新科技公司，专注于游戏开发、软件解决方案和数字体验设计。</p>
+                <p>我们的使命是通过技术创造卓越的数字体验。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="products.html">产品</a></li>
+                    <li><a href="introduction.html">介绍</a></li>
+                    <li><a href="about.html">关于我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 山东省济南市莱芜区凤城衔道22号</p>
+                <p><i class="fas fa-phone"></i> +86 151 6346 0392</p>
+                <p><i class="fas fa-envelope"></i> info@noerrorzerodegree.com</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-weibo"></i></a>
+                    <a href="#"><i class="fab fa-weixin"></i></a>
+                    <a href="#"><i class="fab fa-qq"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 No Error Zero Degree Studio. 保留所有权利。</p>
+        </div>
+    </footer>
+
+    <script>
+        // 密码显示/隐藏功能
+        document.getElementById('toggleRegisterPassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('registerPassword');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('confirmPassword');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        // 表单验证
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            let isValid = true;
+            
+            // 用户名验证（至少5位）
+            if (username.length < 5) {
+                document.getElementById('usernameError').style.display = 'block';
+                document.getElementById('registerUsername').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('usernameError').style.display = 'none';
+                document.getElementById('registerUsername').classList.remove('error');
+            }
+            
+            // 邮箱验证
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                document.getElementById('registerEmail').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('emailError').style.display = 'none';
+                document.getElementById('registerEmail').classList.remove('error');
+            }
+            
+            // 密码验证（至少6位，包含字母和数字）
+            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+            if (!passwordRegex.test(password)) {
+                document.getElementById('passwordError').style.display = 'block';
+                document.getElementById('registerPassword').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('passwordError').style.display = 'none';
+                document.getElementById('registerPassword').classList.remove('error');
+            }
+            
+            // 确认密码验证
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').style.display = 'block';
+                document.getElementById('confirmPassword').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('confirmPasswordError').style.display = 'none';
+                document.getElementById('confirmPassword').classList.remove('error');
+            }
+            
+            if (isValid) {
+                // 表单验证通过，这里可以添加注册逻辑
+                alert('注册成功！');
+                // 在实际应用中，这里会跳转到登录页面或直接登录
+                window.location.href = 'login.html';
+            }
+        });
+        
+        // 汉堡菜单交互
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // 点击页面其他区域关闭菜单
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
