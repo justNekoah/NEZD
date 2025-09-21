@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录 - No Error Zero Degree Studio</title>
+    <title>登录 | No Error Zero Degree Studio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
@@ -13,22 +13,38 @@
             --accent: #4ecdc4;
             --light: #f7f9ff;
             --dark: #1a1c2b;
+            --success: #4caf50;
+            --warning: #ff9800;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: var(--light);
-            line-height: 1.6;
-            min-height: 极速h;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
+            z-index: -1;
         }
         
         .navbar {
@@ -41,18 +57,16 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(极速, 极速, 极速, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
-            display: flex;
-            align-items: center;
         }
         
-极速        .logo span {
+        .logo span {
             color: var(--secondary);
         }
         
@@ -74,7 +88,7 @@
             position: relative;
         }
         
-        .nav极速inks a:hover {
+        .nav-links a:hover {
             color: var(--accent);
         }
         
@@ -93,21 +107,7 @@
             width: 100%;
         }
         
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-        
-        .hamburger div {
-            width: 25px;
-            height: 3px;
-            background: var(--light);
-            margin: 3px 0;
-            transition: all 0.3s;
-        }
-        
-        .main-container {
+        .auth-container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -115,97 +115,283 @@
             padding: 2rem;
         }
         
-        .card {
+        .auth-card {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 2.5rem;
+            border-radius: 20px;
+            padding: 3rem;
             width: 100%;
-            max-width: 450px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
+            transform: translateY(0);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         
-        .card-header {
+        .auth-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .auth-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
         
-        .card-header h2 {
-            font-size: 2rem;
+        .auth-header h2 {
+            font-size: 2.5rem;
             margin-bottom: 0.5rem;
             background: linear-gradient(135deg, var(--light) 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        .card-header p {
+        .auth-header p {
             opacity: 0.8;
+            font-size: 1.1rem;
         }
         
-        .form-group {
-            margin-bottom: 1.5rem;
+        .auth-form .form-group {
+            margin-bottom: 1.8rem;
         }
         
-        .form-group label {
+        .auth-form label {
             display: block;
-            margin-bottom: 0.极速rem;
+            margin-bottom: 0.8rem;
             font-weight: 500;
+            font-size: 1.1rem;
         }
         
-        .form-group input {
+        .auth-form input {
             width: 100%;
-            padding: 0.8rem 1rem;
+            padding: 1rem 1.2rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
             color: var(--light);
             font-size: 1rem;
-            transition: all 0.3极速        }
+            transition: all 0.3s;
+        }
         
-        .form-group input:focus {
+        .auth-form input:focus {
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+            background: rgba(255, 255, 255, 0.12);
         }
         
-        .btn {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            background: var(--secondary);
+        .auth-form input.error {
+            border-color: var(--secondary);
+        }
+        
+        .error-message {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .password-toggle {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.6);
+            transition: color 0.3s;
+        }
+        
+        .toggle-password:hover {
+            color: var(--accent);
+        }
+        
+        .auth-submit {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, #ff5252 100%);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            width: 100%;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
         }
         
-        .btn:hover {
-            background: #ff5252;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        .auth-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
+        }
+        
+        .auth-submit:active {
+            transform: translateY(0);
         }
         
         .auth-switch {
             text-align: center;
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
+            margin-top: 2rem;
+            font-size: 1rem;
         }
         
         .auth-switch a {
             color: var(--accent);
             text-decoration: none;
             font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
         }
         
-        .auth-switch a:hover {
+        .auth-switch a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        
+        .auth-switch a:hover::after {
+            width: 100%;
+        }
+        
+        .alert {
+            padding: 1.2rem;
+            border-radius: 12px;
+            margin-bottom: 1.8rem;
+            display: none;
+        }
+        
+        .alert-success {
+            background: rgba(76, 175, 80, 0.15);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+        
+        .alert-error {
+            background: rgba(255, 107, 107, 0.15);
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .forgot-password {
+            text-align: right;
+            margin-top: -1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .forgot-password a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .forgot-password a:hover {
             text-decoration: underline;
         }
         
+        footer {
+            background: var(--dark);
+            padding: 3rem 2rem;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .footer-section p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--light);
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+        
         @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
             .nav-links {
                 display: none;
                 flex-direction: column;
@@ -223,57 +409,68 @@
             }
             
             .nav-links li {
-                margin: 0.5rem 2rem;
+                margin: 0.8rem 2rem;
             }
             
-            .hamburger {
-                display: flex;
-            }
-            
-            .card {
+            .auth-card {
                 padding: 2rem 1.5rem;
+            }
+            
+            .auth-header h2 {
+                font-size: 2rem;
             }
         }
     </style>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
+    <!-- 导航栏 -->
     <nav class="navbar">
         <div class="logo">No Error <span>Zero Degree</span></div>
         <ul class="nav-links">
             <li><a href="index.html">首页</a></li>
-            <li><a href="products.html">产品</极速li>
+            <li><a href="products.html">产品</a></li>
             <li><a href="introduction.html">介绍</a></li>
-            <li><极速 href="about.html">关于我们</a></li>
-            <li><a href="login.html">登录</a></li>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="login.html" class="active">登录</a></li>
             <li><a href="register.html">注册</a></li>
         </ul>
-        <div class="hamburger">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
     </nav>
 
-    <div class="main-container">
-        <div class="card">
-            <div class="card-header">
-                <h2>登录账号</h2>
-                <p>请输入您的用户名和密码</p>
+    <!-- 登录表单 -->
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>欢迎回来</h2>
+                <p>请输入您的账号信息登录系统</p>
             </div>
             
-            <form id="loginForm">
+            <div class="alert alert-error" id="loginError"></div>
+            <div class="alert alert-success" id="loginSuccess"></div>
+            
+            <form class="auth-form" id="loginForm">
                 <div class="form-group">
-                    <label for="loginUsername">用户名或邮箱</label>
-                    <input type="text" id="loginUsername" name="username" required>
+                    <label for="loginEmail">电子邮箱</label>
+                    <input type="email" id="loginEmail" name="email" placeholder="请输入您的电子邮箱" required>
+                    <div class="error-message" id="loginEmailError">请输入有效的电子邮箱</div>
                 </div>
                 
-                <div class="form-group">
+                <div class="form-group password-toggle">
                     <label for="loginPassword">密码</label>
-                    <input type="password" id="loginPassword" name="password" required>
+                    <input type="password" id="loginPassword" name="password" placeholder="请输入您的密码" required>
+                    <span class="toggle-password" id="toggleLoginPassword">
+                        <i class="far fa-eye"></i>
+                    </span>
+                    <div class="error-message" id="loginPasswordError">密码不正确</div>
                 </div>
                 
-                <button type="submit" class="btn">登录</button>
+                <div class="forgot-password">
+                    <a href="#" id="forgotPasswordLink">忘记密码？</a>
+                </div>
+                
+                <button type="submit" class="auth-submit" id="loginButton">
+                    <span class="loader" id="loginLoader"></span>
+                    <span>登录</span>
+                </button>
             </form>
             
             <div class="auth-switch">
@@ -282,37 +479,163 @@
         </div>
     </div>
 
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>No Error Zero Degree Studio 是一家创新科技公司，专注于游戏开发、软件解决方案和数字体验设计。</p>
+                <p>我们的使命是通过技术创造卓越的数字体验。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="products.html">产品</a></li>
+                    <li><a href="introduction.html">介绍</a></li>
+                    <li><a href="about.html">关于我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 山东省济南市莱芜区凤城衔道22号</p>
+                <p><i class="fas fa-phone"></i> +86 151 6346 0392</p>
+                <p><i class="fas fa-envelope"></i> info@noerrorzerodegree.com</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-weibo"></i></a>
+                    <a href="#"><i class="fab fa-weixin"></i></a>
+                    <a href="#"><i class="fab fa-qq"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 No Error Zero Degree Studio. 保留所有权利。</p>
+        </div>
+    </footer>
+
     <script>
+        // 初始化Netlify Identity
         netlifyIdentity.init();
         
+        // 密码显示/隐藏功能
+        document.getElementById('toggleLoginPassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('loginPassword');
+            const icon = this.querySelector('i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        // 显示错误信息
+        function showError(message) {
+            const errorElement = document.getElementById('loginError');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            document.getElementById('loginSuccess').style.display = 'none';
+        }
+        
+        // 显示成功消息
+        function showSuccess(message) {
+            const successElement = document.getElementById('loginSuccess');
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+            document.getElementById('loginError').style.display = 'none';
+            
+            // 5秒后自动隐藏
+            setTimeout(() => {
+                successElement.style.display = 'none';
+            }, 5000);
+        }
+        
+        // 设置加载状态
+        function setLoading(isLoading) {
+            const button = document.getElementById('loginButton');
+            const loader = document.getElementById('loginLoader');
+            const buttonText = button.querySelector('span:not(.loader)');
+            
+            if (isLoading) {
+                loader.style.display = 'inline-block';
+                buttonText.textContent = '登录中...';
+                button.disabled = true;
+            } else {
+                loader.style.display = 'none';
+                buttonText.textContent = '登录';
+                button.disabled = false;
+            }
+        }
+        
+        // 登录表单处理
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const username = document.getElementById('loginUsername').value;
+            const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
-            netlifyIdentity.login(username, password)
+            if (!email) {
+                showError('请输入电子邮箱');
+                return;
+            }
+            
+            if (!password) {
+                showError('请输入密码');
+                return;
+            }
+            
+            setLoading(true);
+            
+            // 使用Netlify Identity进行登录
+            netlifyIdentity.login(email, password)
                 .then(user => {
-                    alert('登录成功！');
-                    window.location.href = 'index.html';
+                    showSuccess('登录成功！正在跳转...');
+                    
+                    // 2秒后跳转到首页
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
                 })
                 .catch(err => {
-                    alert('登录失败: ' + err.message);
+                    showError('登录失败: ' + err.message);
+                })
+                .finally(() => {
+                    setLoading(false);
                 });
         });
         
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
-        
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-        
-        document.addEventListener('click', (e) => {
-            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-                navLinks.classList.remove('active');
+        // 忘记密码功能
+        document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            
+            if (!email) {
+                showError('请输入您的电子邮箱以重置密码');
+                return;
             }
+            
+            // 使用Netlify Identity请求密码重置
+            netlifyIdentity.requestPasswordRecovery(email)
+                .then(() => {
+                    showSuccess('密码重置链接已发送到您的邮箱，请查收');
+                })
+                .catch(err => {
+                    showError('发送失败: ' + err.message);
+                });
         });
+        
+        // 检查是否已登录
+        const user = netlifyIdentity.currentUser();
+        if (user) {
+            // 如果用户已登录，直接跳转到首页
+            window.location.href = 'index.html';
+        }
     </script>
 </body>
 </html>
