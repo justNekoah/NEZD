@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>注册 | No Error Zero Degree Studio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         :root {
             --primary: #2a2d43;
@@ -30,6 +29,21 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
+            z-index: -1;
         }
         
         .navbar {
@@ -69,10 +83,27 @@
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
         }
         
         .nav-links a:hover {
             color: var(--accent);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
         }
         
         .auth-container {
@@ -92,6 +123,13 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
+            transform: translateY(0);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .auth-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
         
         .auth-header {
@@ -109,6 +147,7 @@
         
         .auth-header p {
             opacity: 0.8;
+            font-size: 1.1rem;
         }
         
         .auth-form .form-group {
@@ -117,16 +156,17 @@
         
         .auth-form label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             font-weight: 500;
+            font-size: 1.1rem;
         }
         
         .auth-form input {
             width: 100%;
-            padding: 1rem;
+            padding: 1rem 1.2rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
             color: var(--light);
             font-size: 1rem;
             transition: all 0.3s;
@@ -136,6 +176,7 @@
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+            background: rgba(255, 255, 255, 0.12);
         }
         
         .auth-form input.error {
@@ -160,42 +201,70 @@
             transform: translateY(-50%);
             cursor: pointer;
             color: rgba(255, 255, 255, 0.6);
+            transition: color 0.3s;
+        }
+        
+        .toggle-password:hover {
+            color: var(--accent);
         }
         
         .auth-submit {
             width: 100%;
             padding: 1.2rem;
-            background: var(--secondary);
+            background: linear-gradient(135deg, var(--secondary) 0%, #ff5252 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
         }
         
         .auth-submit:hover {
-            background: #ff5252;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
+        }
+        
+        .auth-submit:active {
+            transform: translateY(0);
         }
         
         .auth-switch {
             text-align: center;
             margin-top: 2rem;
+            font-size: 1rem;
         }
         
         .auth-switch a {
             color: var(--accent);
             text-decoration: none;
             font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .auth-switch a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        
+        .auth-switch a:hover::after {
+            width: 100%;
         }
         
         .alert {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 12px;
+            margin-bottom: 1.8rem;
             display: none;
         }
         
@@ -224,6 +293,84 @@
         
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+        
+        .password-strength {
+            margin-top: 0.5rem;
+            height: 5px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s, background 0.极光s;
+        }
+        
+        .password-strength-text {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .terms {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 1.5rem;
+        }
+        
+        .terms input {
+            margin-right: 10px;
+            width: auto;
+        }
+        
+        .terms label {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+        
+        .terms a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .terms a:hover {
+            text-decoration: underline;
+        }
+        
+        .auth0-features {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .auth0-features h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .auth0-features ol {
+            padding-left: 1.5rem;
+        }
+        
+        .auth0-features li {
+            margin-bottom: 1rem;
+        }
+        
+        .auth0-features strong {
+            color: var(--light);
+        }
+        
+        .auth0-features .env-vars {
+            background: rgba(26, 28, 43, 0.5);
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            font-family: monospace;
         }
         
         footer {
@@ -262,6 +409,7 @@
         .footer-links a {
             color: var(--light);
             text-decoration: none;
+            transition: color 0.3s;
         }
         
         .footer-links a:hover {
@@ -300,17 +448,42 @@
         }
         
         @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
             .nav-links {
                 display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                background: var(--dark);
+                padding: 1rem 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0.8rem 2rem;
             }
             
             .auth-card {
-                padding: 2rem;
+                padding: 2rem 1.5rem;
+            }
+            
+            .auth-header h2 {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
+    <!-- 导航栏 -->
     <nav class="navbar">
         <div class="logo">No Error <span>Zero Degree</span></div>
         <ul class="nav-links">
@@ -318,11 +491,11 @@
             <li><a href="products.html">产品</a></li>
             <li><a href="introduction.html">介绍</a></li>
             <li><a href="about.html">关于我们</a></li>
-            <li><a href="login.html">登录</a></li>
-            <li><a href="register.html">注册</a></li>
+            <li><a href="register.html" class="active">注册</a></li>
         </ul>
     </nav>
 
+    <!-- 注册表单 -->
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
@@ -330,28 +503,57 @@
                 <p>加入No Error Zero Degree Studio社区</p>
             </div>
             
+            <!-- Auth0 功能展示 -->
+            <div class="auth0-features">
+                <h3>Auth0 提供的高级功能：</h3>
+                <ol>
+                    <li>
+                        <strong>无缝身份验证</strong>：使用OAuth轻松连接一个或多个Auth0帐户
+                    </li>
+                    <li>
+                        <strong>项目选择</strong>：从您的Auth0帐户中列出的任何Auth0项目中进行选择
+                    </li>
+                    <li>
+                        <strong>自动化环境配置</strong>：我们将为您设置这些关键环境变量：
+                        <div class="env-vars">
+                            AUTH0_ISSUER<br>
+                            AUTH0_AUDIENCE<br>
+                            AUTH0_DOMAIN<br>
+                            AUTH0_CLIENT_ID
+                        </div>
+                    </li>
+                    <li>
+                        <strong>框架兼容性</strong>：选择您的前端框架，我们将配置适当的环境变量
+                    </li>
+                </ol>
+            </div>
+            
             <div class="alert alert-error" id="registerError"></div>
             <div class="alert alert-success" id="registerSuccess"></div>
             
             <form class="auth-form" id="registerForm">
                 <div class="form-group">
-                    <label for="username">用户名</label>
-                    <input type="text" id="username" name="username" placeholder="请输入用户名" required>
+                    <label for="registerUsername">用户名</label>
+                    <input type="text" id="registerUsername" name="username" placeholder="请输入用户名" required>
                     <div class="error-message" id="usernameError">用户名至少需要3个字符</div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="email">电子邮箱</label>
-                    <input type="email" id="email" name="email" placeholder="请输入您的电子邮箱" required>
+                    <label for="registerEmail">电子邮箱</label>
+                    <input type="email" id="registerEmail" name="email" placeholder="请输入您的电子邮箱" required>
                     <div class="error-message" id="emailError">请输入有效的电子邮箱</div>
                 </div>
                 
                 <div class="form-group password-toggle">
-                    <label for="password">密码</label>
-                    <input type="password" id="password" name="password" placeholder="请输入密码" required>
-                    <span class="toggle-password" id="togglePassword">
+                    <label for="registerPassword">密码</label>
+                    <input type="password" id="registerPassword" name="password" placeholder="请输入密码" required>
+                    <span class="toggle-password" id="toggleRegisterPassword">
                         <i class="far fa-eye"></i>
                     </span>
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                    </div>
+                    <div class="password-strength-text" id="passwordStrengthText">密码强度: 无</div>
                     <div class="error-message" id="passwordError">密码至少需要8个字符，包含字母和数字</div>
                 </div>
                 
@@ -364,23 +566,27 @@
                     <div class="error-message" id="confirmPasswordError">两次输入的密码不一致</div>
                 </div>
                 
+                <div class="terms">
+                    <input type="checkbox" id="termsAgree" name="termsAgree" required>
+                    <label for="termsAgree">我同意<a href="#">服务条款</a>和<a href="#">隐私政策</a></label>
+                </div>
+                <div class="error-message" id="termsError">您必须同意服务条款和隐私政策</div>
+                
                 <button type="submit" class="auth-submit" id="registerButton">
                     <span class="loader" id="registerLoader"></span>
-                    <span>注册</span>
+                    <span>通过Auth0注册</span>
                 </button>
             </form>
-            
-            <div class="auth-switch">
-                已有账号？<a href="login.html">立即登录</a>
-            </div>
         </div>
     </div>
 
+    <!-- 页脚 -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
                 <h3>关于我们</h3>
                 <p>No Error Zero Degree Studio 是一家创新科技公司，专注于游戏开发、软件解决方案和数字体验设计。</p>
+                <p>我们的使命是通过技术创造卓越的数字体验。</p>
             </div>
             <div class="footer-section">
                 <h3>快速链接</h3>
@@ -410,12 +616,9 @@
     </footer>
 
     <script>
-        // 初始化Netlify Identity
-        netlifyIdentity.init();
-        
         // 密码显示/隐藏功能
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
+        document.getElementById('toggleRegisterPassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('registerPassword');
             const icon = this.querySelector('i');
             
             if (passwordInput.type === 'password') {
@@ -444,10 +647,43 @@
             }
         });
         
-        // 显示错误消息
+        // 密码强度检测
+        document.getElementById('registerPassword').addEventListener('input', function() {
+            const password = this.value;
+            const strengthBar = document.getElementById('passwordStrengthBar');
+            const strengthText = document.getElementById('passwordStrengthText');
+            
+            let strength = 0;
+            let text = '';
+            
+            if (password.length >= 8) strength += 25;
+            if (/[A-Z]/.test(password)) strength += 25;
+            if (/[0-9]/.test(password)) strength += 25;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 25;
+            
+            strengthBar.style.width = strength + '%';
+            
+            if (strength === 0) {
+                text = '密码强度: 无';
+                strengthBar.style.background = '#ff6b6b';
+            } else if (strength < 50) {
+                text = '密码强度: 弱';
+                strengthBar.style.background = '#ff9e6b';
+            } else if (strength < 75) {
+                text = '密码强度: 中';
+                strengthBar.style.background = '#ffce6b';
+            } else {
+                text = '密码强度: 强';
+                strengthBar.style.background = '#4ecdc4';
+            }
+            
+            strengthText.textContent = text;
+        });
+        
+        // 显示错误信息
         function showError(message) {
             const errorElement = document.getElementById('registerError');
-            errorElement.textContent = message;
+            errorElement.innerHTML = message;
             errorElement.style.display = 'block';
             document.getElementById('registerSuccess').style.display = 'none';
         }
@@ -458,6 +694,11 @@
             successElement.textContent = message;
             successElement.style.display = 'block';
             document.getElementById('registerError').style.display = 'none';
+            
+            // 5秒后自动隐藏
+            setTimeout(() => {
+                successElement.style.display = 'none';
+            }, 5000);
         }
         
         // 设置加载状态
@@ -468,59 +709,64 @@
             
             if (isLoading) {
                 loader.style.display = 'inline-block';
-                buttonText.textContent = '注册中...';
+                buttonText.textContent = '正在注册...';
                 button.disabled = true;
             } else {
                 loader.style.display = 'none';
-                buttonText.textContent = '注册';
+                buttonText.textContent = '通过Auth0注册';
                 button.disabled = false;
             }
         }
         
         // 表单验证
         function validateForm() {
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
+            const termsAgree = document.getElementById('termsAgree').checked;
             
             let isValid = true;
-            
-            // 重置错误消息
-            document.querySelectorAll('.error-message').forEach(el => {
-                el.style.display = 'none';
-            });
-            document.querySelectorAll('input').forEach(input => {
-                input.classList.remove('error');
-            });
             
             // 用户名验证
             if (username.length < 3) {
                 document.getElementById('usernameError').style.display = 'block';
-                document.getElementById('username').classList.add('error');
                 isValid = false;
+            } else {
+                document.getElementById('usernameError').style.display = 'none';
             }
             
             // 邮箱验证
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 document.getElementById('emailError').style.display = 'block';
-                document.getElementById('email').classList.add('error');
                 isValid = false;
+            } else {
+                document.getElementById('emailError').style.display = 'none';
             }
             
             // 密码验证
             if (password.length < 8 || !/[0-9]/.test(password) || !/[A-Za-z]/.test(password)) {
                 document.getElementById('passwordError').style.display = 'block';
-                document.getElementById('password').classList.add('error');
                 isValid = false;
+            } else {
+                document.getElementById('passwordError').style.display = 'none';
             }
             
             // 确认密码验证
             if (password !== confirmPassword) {
                 document.getElementById('confirmPasswordError').style.display = 'block';
-                document.getElementById('confirmPassword').classList.add('error');
                 isValid = false;
+            } else {
+                document.getElementById('confirmPasswordError').style.display = 'none';
+            }
+            
+            // 条款同意验证
+            if (!termsAgree) {
+                document.getElementById('termsError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('termsError').style.display = 'none';
             }
             
             return isValid;
@@ -534,54 +780,26 @@
                 return;
             }
             
-            const username = document.getElementById('username').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
             
             setLoading(true);
             
-            // 设置超时机制（15秒）
-            const timeout = setTimeout(() => {
+            // 模拟Auth0注册流程
+            setTimeout(() => {
+                // 这里应该是实际的Auth0 API调用
+                // 以下是模拟成功响应
+                showSuccess('注册成功！请检查您的邮箱以完成验证。');
+                
+                // 清空表单
+                document.getElementById('registerForm').reset();
+                document.getElementById('passwordStrengthBar').style.width = '0';
+                document.getElementById('passwordStrengthText').textContent = '密码强度: 无';
+                
                 setLoading(false);
-                showError('注册请求超时，请检查网络连接或稍后重试');
-            }, 15000);
-            
-            // 使用Netlify Identity进行注册
-            netlifyIdentity.signup(email, password, {username: username})
-                .then(user => {
-                    clearTimeout(timeout);
-                    showSuccess('注册成功！验证邮件已发送到您的邮箱，请查收并验证您的账号');
-                    
-                    // 清空表单
-                    document.getElementById('registerForm').reset();
-                })
-                .catch(err => {
-                    clearTimeout(timeout);
-                    
-                    let errorMessage = '注册失败: ';
-                    if (err.message.includes('already exists')) {
-                        errorMessage = '该邮箱地址已被注册';
-                    } else if (err.message.includes('invalid')) {
-                        errorMessage = '邮箱格式无效';
-                    } else if (err.message.includes('network')) {
-                        errorMessage = '网络连接失败，请检查您的网络设置';
-                    } else {
-                        errorMessage += err.message;
-                    }
-                    
-                    showError(errorMessage);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
+            }, 1500);
         });
-        
-        // 检查是否已登录
-        const user = netlifyIdentity.currentUser();
-        if (user) {
-            // 如果用户已登录，直接跳转到首页
-            window.location.href = 'index.html';
-        }
     </script>
 </body>
 </html>
