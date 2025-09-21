@@ -30,21 +30,6 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
-            z-index: -1;
         }
         
         .navbar {
@@ -84,27 +69,10 @@
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
-            padding: 0.5rem 0;
-            position: relative;
         }
         
         .nav-links a:hover {
             color: var(--accent);
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s;
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
         }
         
         .auth-container {
@@ -124,13 +92,6 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            transform: translateY(0);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .auth-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
         
         .auth-header {
@@ -148,7 +109,6 @@
         
         .auth-header p {
             opacity: 0.8;
-            font-size: 1.1rem;
         }
         
         .auth-form .form-group {
@@ -157,17 +117,16 @@
         
         .auth-form label {
             display: block;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
             font-weight: 500;
-            font-size: 1.1rem;
         }
         
         .auth-form input {
             width: 100%;
-            padding: 1rem 1.2rem;
+            padding: 1rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
             color: var(--light);
             font-size: 1rem;
             transition: all 0.3s;
@@ -177,7 +136,6 @@
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
-            background: rgba(255, 255, 255, 0.12);
         }
         
         .auth-form input.error {
@@ -202,70 +160,42 @@
             transform: translateY(-50%);
             cursor: pointer;
             color: rgba(255, 255, 255, 0.6);
-            transition: color 0.3s;
-        }
-        
-        .toggle-password:hover {
-            color: var(--accent);
         }
         
         .auth-submit {
             width: 100%;
             padding: 1.2rem;
-            background: linear-gradient(135deg, var(--secondary) 0%, #ff5252 100%);
+            background: var(--secondary);
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 1.5rem;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
         }
         
         .auth-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
-        }
-        
-        .auth-submit:active {
-            transform: translateY(0);
+            background: #ff5252;
+            transform: translateY(-2px);
         }
         
         .auth-switch {
             text-align: center;
             margin-top: 2rem;
-            font-size: 1rem;
         }
         
         .auth-switch a {
             color: var(--accent);
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
-            position: relative;
-        }
-        
-        .auth-switch a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s;
-        }
-        
-        .auth-switch a:hover::after {
-            width: 100%;
         }
         
         .alert {
-            padding: 1.2rem;
-            border-radius: 12px;
-            margin-bottom: 1.8rem;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
             display: none;
         }
         
@@ -294,51 +224,6 @@
         
         @keyframes spin {
             to { transform: rotate(360deg); }
-        }
-        
-        .password-strength {
-            margin-top: 0.5rem;
-            height: 5px;
-            border-radius: 3px;
-            background: rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-        }
-        
-        .password-strength-bar {
-            height: 100%;
-            width: 0;
-            transition: width 0.3s, background 0.3s;
-        }
-        
-        .password-strength-text {
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .terms {
-            display: flex;
-            align-items: flex-start;
-            margin-top: 1.5rem;
-        }
-        
-        .terms input {
-            margin-right: 10px;
-            width: auto;
-        }
-        
-        .terms label {
-            font-size: 0.9rem;
-            margin-bottom: 0;
-        }
-        
-        .terms a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-        
-        .terms a:hover {
-            text-decoration: underline;
         }
         
         footer {
@@ -377,7 +262,6 @@
         .footer-links a {
             color: var(--light);
             text-decoration: none;
-            transition: color 0.3s;
         }
         
         .footer-links a:hover {
@@ -416,42 +300,17 @@
         }
         
         @media (max-width: 768px) {
-            .navbar {
-                padding: 1rem;
-            }
-            
             .nav-links {
                 display: none;
-                flex-direction: column;
-                width: 100%;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                background: var(--dark);
-                padding: 1rem 0;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-            }
-            
-            .nav-links.active {
-                display: flex;
-            }
-            
-            .nav-links li {
-                margin: 0.8rem 2rem;
             }
             
             .auth-card {
-                padding: 2rem 1.5rem;
-            }
-            
-            .auth-header h2 {
-                font-size: 2rem;
+                padding: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
     <nav class="navbar">
         <div class="logo">No Error <span>Zero Degree</span></div>
         <ul class="nav-links">
@@ -460,11 +319,10 @@
             <li><a href="introduction.html">介绍</a></li>
             <li><a href="about.html">关于我们</a></li>
             <li><a href="login.html">登录</a></li>
-            <li><a href="register.html" class="active">注册</a></li>
+            <li><a href="register.html">注册</a></li>
         </ul>
     </nav>
 
-    <!-- 注册表单 -->
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
@@ -477,27 +335,23 @@
             
             <form class="auth-form" id="registerForm">
                 <div class="form-group">
-                    <label for="registerUsername">用户名</label>
-                    <input type="text" id="registerUsername" name="username" placeholder="请输入用户名" required>
+                    <label for="username">用户名</label>
+                    <input type="text" id="username" name="username" placeholder="请输入用户名" required>
                     <div class="error-message" id="usernameError">用户名至少需要3个字符</div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="registerEmail">电子邮箱</label>
-                    <input type="email" id="registerEmail" name="email" placeholder="请输入您的电子邮箱" required>
+                    <label for="email">电子邮箱</label>
+                    <input type="email" id="email" name="email" placeholder="请输入您的电子邮箱" required>
                     <div class="error-message" id="emailError">请输入有效的电子邮箱</div>
                 </div>
                 
                 <div class="form-group password-toggle">
-                    <label for="registerPassword">密码</label>
-                    <input type="password" id="registerPassword" name="password" placeholder="请输入密码" required>
-                    <span class="toggle-password" id="toggleRegisterPassword">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" placeholder="请输入密码" required>
+                    <span class="toggle-password" id="togglePassword">
                         <i class="far fa-eye"></i>
                     </span>
-                    <div class="password-strength">
-                        <div class="password-strength-bar" id="passwordStrengthBar"></div>
-                    </div>
-                    <div class="password-strength-text" id="passwordStrengthText">密码强度: 无</div>
                     <div class="error-message" id="passwordError">密码至少需要8个字符，包含字母和数字</div>
                 </div>
                 
@@ -509,12 +363,6 @@
                     </span>
                     <div class="error-message" id="confirmPasswordError">两次输入的密码不一致</div>
                 </div>
-                
-                <div class="terms">
-                    <input type="checkbox" id="termsAgree" name="termsAgree" required>
-                    <label for="termsAgree">我同意<a href="#">服务条款</a>和<a href="#">隐私政策</a></label>
-                </div>
-                <div class="error-message" id="termsError">您必须同意服务条款和隐私政策</div>
                 
                 <button type="submit" class="auth-submit" id="registerButton">
                     <span class="loader" id="registerLoader"></span>
@@ -528,13 +376,11 @@
         </div>
     </div>
 
-    <!-- 页脚 -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
                 <h3>关于我们</h3>
                 <p>No Error Zero Degree Studio 是一家创新科技公司，专注于游戏开发、软件解决方案和数字体验设计。</p>
-                <p>我们的使命是通过技术创造卓越的数字体验。</p>
             </div>
             <div class="footer-section">
                 <h3>快速链接</h3>
@@ -568,8 +414,8 @@
         netlifyIdentity.init();
         
         // 密码显示/隐藏功能
-        document.getElementById('toggleRegisterPassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('registerPassword');
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
             const icon = this.querySelector('i');
             
             if (passwordInput.type === 'password') {
@@ -598,40 +444,7 @@
             }
         });
         
-        // 密码强度检测
-        document.getElementById('registerPassword').addEventListener('input', function() {
-            const password = this.value;
-            const strengthBar = document.getElementById('passwordStrengthBar');
-            const strengthText = document.getElementById('passwordStrengthText');
-            
-            let strength = 0;
-            let text = '';
-            
-            if (password.length >= 8) strength += 25;
-            if (/[A-Z]/.test(password)) strength += 25;
-            if (/[0-9]/.test(password)) strength += 25;
-            if (/[^A-Za-z0-9]/.test(password)) strength += 25;
-            
-            strengthBar.style.width = strength + '%';
-            
-            if (strength === 0) {
-                text = '密码强度: 无';
-                strengthBar.style.background = '#ff6b6b';
-            } else if (strength < 50) {
-                text = '密码强度: 弱';
-                strengthBar.style.background = '#ff9e6b';
-            } else if (strength < 75) {
-                text = '密码强度: 中';
-                strengthBar.style.background = '#ffce6b';
-            } else {
-                text = '密码强度: 强';
-                strengthBar.style.background = '#4ecdc4';
-            }
-            
-            strengthText.textContent = text;
-        });
-        
-        // 显示错误信息
+        // 显示错误消息
         function showError(message) {
             const errorElement = document.getElementById('registerError');
             errorElement.textContent = message;
@@ -645,11 +458,6 @@
             successElement.textContent = message;
             successElement.style.display = 'block';
             document.getElementById('registerError').style.display = 'none';
-            
-            // 5秒后自动隐藏
-            setTimeout(() => {
-                successElement.style.display = 'none';
-            }, 5000);
         }
         
         // 设置加载状态
@@ -671,53 +479,48 @@
         
         // 表单验证
         function validateForm() {
-            const username = document.getElementById('registerUsername').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            const termsAgree = document.getElementById('termsAgree').checked;
             
             let isValid = true;
+            
+            // 重置错误消息
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('input').forEach(input => {
+                input.classList.remove('error');
+            });
             
             // 用户名验证
             if (username.length < 3) {
                 document.getElementById('usernameError').style.display = 'block';
+                document.getElementById('username').classList.add('error');
                 isValid = false;
-            } else {
-                document.getElementById('usernameError').style.display = 'none';
             }
             
             // 邮箱验证
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 document.getElementById('emailError').style.display = 'block';
+                document.getElementById('email').classList.add('error');
                 isValid = false;
-            } else {
-                document.getElementById('emailError').style.display = 'none';
             }
             
             // 密码验证
             if (password.length < 8 || !/[0-9]/.test(password) || !/[A-Za-z]/.test(password)) {
                 document.getElementById('passwordError').style.display = 'block';
+                document.getElementById('password').classList.add('error');
                 isValid = false;
-            } else {
-                document.getElementById('passwordError').style.display = 'none';
             }
             
             // 确认密码验证
             if (password !== confirmPassword) {
                 document.getElementById('confirmPasswordError').style.display = 'block';
+                document.getElementById('confirmPassword').classList.add('error');
                 isValid = false;
-            } else {
-                document.getElementById('confirmPasswordError').style.display = 'none';
-            }
-            
-            // 条款同意验证
-            if (!termsAgree) {
-                document.getElementById('termsError').style.display = 'block';
-                isValid = false;
-            } else {
-                document.getElementById('termsError').style.display = 'none';
             }
             
             return isValid;
@@ -731,24 +534,42 @@
                 return;
             }
             
-            const username = document.getElementById('registerUsername').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             
             setLoading(true);
+            
+            // 设置超时机制（15秒）
+            const timeout = setTimeout(() => {
+                setLoading(false);
+                showError('注册请求超时，请检查网络连接或稍后重试');
+            }, 15000);
             
             // 使用Netlify Identity进行注册
             netlifyIdentity.signup(email, password, {username: username})
                 .then(user => {
-                    showSuccess('注册成功！验证邮件已发送到您的邮箱，请查收并验证您的账号。');
+                    clearTimeout(timeout);
+                    showSuccess('注册成功！验证邮件已发送到您的邮箱，请查收并验证您的账号');
                     
                     // 清空表单
                     document.getElementById('registerForm').reset();
-                    document.getElementById('passwordStrengthBar').style.width = '0';
-                    document.getElementById('passwordStrengthText').textContent = '密码强度: 无';
                 })
                 .catch(err => {
-                    showError('注册失败: ' + err.message);
+                    clearTimeout(timeout);
+                    
+                    let errorMessage = '注册失败: ';
+                    if (err.message.includes('already exists')) {
+                        errorMessage = '该邮箱地址已被注册';
+                    } else if (err.message.includes('invalid')) {
+                        errorMessage = '邮箱格式无效';
+                    } else if (err.message.includes('network')) {
+                        errorMessage = '网络连接失败，请检查您的网络设置';
+                    } else {
+                        errorMessage += err.message;
+                    }
+                    
+                    showError(errorMessage);
                 })
                 .finally(() => {
                     setLoading(false);
