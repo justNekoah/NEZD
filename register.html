@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>注册 - No Error Zero Degree Studio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         :root {
             --primary: #2a2d43;
@@ -13,38 +12,22 @@
             --accent: #4ecdc4;
             --light: #f7f9ff;
             --dark: #1a1c2b;
-            --success: #4caf50;
-            --warning: #ff9800;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
             color: var(--light);
+            line-height: 1.6;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            position: relative;
-            overflow-x: hidden;
-        }
-        
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 20%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(255, 107, 107, 0.1) 0%, transparent 50%);
-            z-index: -1;
         }
         
         .navbar {
@@ -58,12 +41,14 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 极速px solid rgba(255, 255, 255, 0.1);
         }
         
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
+            display: flex;
+            align-items: center;
         }
         
         .logo span {
@@ -111,17 +96,16 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
-        }
+极速        }
         
         .hamburger div {
             width: 25px;
-            height: 3px;
-            background: var(--light);
+            height: 3极速            background: var(--light);
             margin: 3px 0;
             transition: all 0.3s;
         }
         
-        .auth-container {
+        .main-container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -129,262 +113,95 @@
             padding: 2rem;
         }
         
-        .auth-card {
+        .card {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 3rem;
+            border-radius: 15px;
+            padding: 2.5rem;
             width: 100%;
-            max-width: 500px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 极速.1);
             backdrop-filter: blur(10px);
-            transform: translateY(0);
-            transition: transform 0.3s, box-shadow 0.3s;
         }
         
-        .auth-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        .auth-header {
+        .card-header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
         
-        .auth-header h2 {
-            font-size: 2.5rem;
+        .card-header h2 {
+            font-size: 2rem;
             margin-bottom: 0.5rem;
             background: linear-gradient(135deg, var(--light) 0%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        .auth-header p {
+        .card-header p {
             opacity: 0.8;
-            font-size: 1.1rem;
         }
         
-        .auth-form .form-group {
-            margin-bottom: 1.8rem;
+        .form-group {
+            margin-bottom: 1.5rem;
         }
         
-        .auth-form label {
+        .form-group label {
             display: block;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.5rem;
             font-weight: 500;
-            font-size: 1.1rem;
         }
         
-        .auth-form input {
+        .form-group input {
             width: 100%;
-            padding: 1rem 1.2rem;
+            padding: 0.8rem 1rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
             color: var(--light);
             font-size: 1rem;
             transition: all 0.3s;
         }
         
-        .auth-form input:focus {
+        .form-group input:focus {
             outline: none;
             border-color: var(--accent);
             box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
-            background: rgba(255, 255, 255, 0.12);
         }
         
-        .auth-form input.error {
-            border-color: var(--secondary);
-        }
-        
-        .error-message {
-            color: var(--secondary);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-        
-        .password-toggle {
-            position: relative;
-        }
-        
-        .toggle-password {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: rgba(255, 255, 255, 0.6);
-            transition: color 0.3s;
-        }
-        
-        .toggle-password:hover {
-            color: var(--accent);
-        }
-        
-        .auth-submit {
-            width: 100%;
-            padding: 1.2rem;
-            background: linear-gradient(135deg, var(--secondary) 0%, #ff5252 100%);
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--secondary);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 1.5rem;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            transition: all 极速.3s;
+            width: 100%;
         }
         
-        .auth-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.5);
-        }
-        
-        .auth-submit:active {
-            transform: translateY(0);
+        .btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
         }
         
         .auth-switch {
             text-align: center;
-            margin-top: 2rem;
-            font-size: 1rem;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
         }
         
         .auth-switch a {
             color: var(--accent);
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s;
-            position: relative;
         }
         
-        .auth-switch a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s;
-        }
-        
-        .auth-switch a:hover::after {
-            width: 100%;
-        }
-        
-        .alert {
-            padding: 1.2rem;
-            border-radius: 12px;
-            margin-bottom: 1.8rem;
-            display: none;
-        }
-        
-        .alert-success {
-            background: rgba(76, 175, 80, 0.15);
-            border: 1px solid var(--success);
-            color: var(--success);
-        }
-        
-        .alert-error {
-            background: rgba(255, 107, 107, 0.15);
-            border: 1px solid var(--secondary);
-            color: var(--secondary);
-        }
-        
-        .loader {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        footer {
-            background: var(--dark);
-            padding: 3rem 2rem;
-            margin-top: auto;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        
-        .footer-section h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent);
-        }
-        
-        .footer-section p {
-            margin-bottom: 1rem;
-            opacity: 0.8;
-            font-size: 0.95rem;
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 0.8rem;
-        }
-        
-        .footer-links a {
-            color: var(--light);
-            text-decoration: none;
-            transition: color 0.3s;
-            font-size: 0.95rem;
-        }
-        
-        .footer-links a:hover {
-            color: var(--accent);
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .social-icons a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: var(--light);
-            transition: all 0.3s;
-        }
-        
-        .social-icons a:hover {
-            background: var(--accent);
-            transform: translateY(-3px);
-        }
-        
-        .copyright {
-            text-align: center;
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            opacity: 0.7;
-            font-size: 0.9rem;
+        .auth-switch a:hover {
+            text-decoration: underline;
         }
         
         @media (max-width: 768px) {
@@ -412,15 +229,12 @@
                 display: flex;
             }
             
-            .auth-card {
+            .card {
                 padding: 2rem 1.5rem;
-            }
-            
-            .auth-header h2 {
-                font-size: 2rem;
             }
         }
     </style>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -431,7 +245,7 @@
             <li><a href="introduction.html">介绍</a></li>
             <li><a href="about.html">关于我们</a></li>
             <li><a href="login.html">登录</a></li>
-            <li><a href="register.html" class="active">注册</a></li>
+            <li><a href="register.html">注册</a></li>
         </ul>
         <div class="hamburger">
             <div></div>
@@ -440,51 +254,30 @@
         </div>
     </nav>
 
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
+    <div class="main-container">
+        <div class="card">
+            <div class="card-header">
                 <h2>创建账号</h2>
                 <p>请填写以下信息完成注册</p>
             </div>
             
-            <div class="alert alert-error" id="registerError"></div>
-            <div class="alert alert-success" id="registerSuccess"></div>
-            
-            <form class="auth-form" id="registerForm">
-                <div class="form-group">
-                    <label for="registerUsername">用户名</label>
-                    <input type="text" id="registerUsername" name="username" placeholder="请输入用户名（至少5个字符）" required>
-                    <div class="error-message" id="usernameError">用户名至少需要5个字符</div>
-                </div>
-                
-                <div class="form-group">
+            <form id="registerForm">
+                <div class="极速orm-group">
                     <label for="registerEmail">电子邮箱</label>
-                    <input type="email" id="registerEmail" name="email" placeholder="请输入电子邮箱" required>
-                    <div class="error-message" id="emailError">请输入有效的电子邮箱</div>
+                    <input type="email" id="registerEmail" name="email" required>
                 </div>
                 
-                <div class="form-group password-toggle">
+                <div class="form-group">
                     <label for="registerPassword">密码</label>
-                    <input type="password" id="registerPassword" name="password" placeholder="请输入密码（至少6位，包含字母和数字）" required>
-                    <span class="toggle-password" id="toggleRegisterPassword">
-                        <i class="far fa-eye"></i>
-                    </span>
-                    <div class="error-message" id="passwordError">密码至少需要6位，包含字母和数字</div>
+                    <input type="password" id="registerPassword" name="password" required>
                 </div>
                 
-                <div class="form-group password-toggle">
+                <div class="form-group">
                     <label for="confirmPassword">确认密码</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="请再次输入密码" required>
-                    <span class="toggle-password" id="toggleConfirmPassword">
-                        <i class="far fa-eye"></i>
-                    </span>
-                    <div class="error-message" id="confirmPasswordError">两次输入的密码不一致</div>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
                 </div>
                 
-                <button type="submit" class="auth-submit" id="registerButton">
-                    <span class="loader" id="registerLoader"></span>
-                    <span>注册</span>
-                </button>
+                <button type="submit" class="btn">注册</button>
             </form>
             
             <div class="auth-switch">
@@ -493,277 +286,43 @@
         </div>
     </div>
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>关于我们</h3>
-                <p>No Error Zero Degree Studio 是一家创新科技公司，专注于游戏开发、软件解决方案和数字体验设计。</p>
-                <p>我们的使命是通过技术创造卓越的数字体验。</p>
-            </div>
-            <div class="footer-section">
-                <h3>快速链接</h3>
-                <ul class="footer-links">
-                    <li><a href="index.html">首页</a></li>
-                    <li><a href="products.html">产品</a></li>
-                    <li><a href="introduction.html">介绍</a></li>
-                    <li><a href="about.html">关于我们</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>联系我们</h3>
-                <p><i class="fas fa-map-marker-alt"></i> 山东省济南市莱芜区凤城衔道22号</p>
-                <p><i class="fas fa-phone"></i> +86 151 6346 0392</p>
-                <p><i class="fas fa-envelope"></i> info@noerrorzerodegree.com</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-weibo"></i></a>
-                    <a href="#"><i class="fab fa-weixin"></i></a>
-                    <a href="#"><i class="fab fa-qq"></i></a>
-                    <a href="#"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>&copy; 2025 No Error Zero Degree Studio. 保留所有权利。</p>
-        </div>
-    </footer>
-
     <script>
-        // Cookie操作函数 - 与index.html和login.html保持一致
-        function setCookie(name, value, days) {
-            let expires = "";
-            if (days) {
-                const date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/";
-        }
+        netlifyIdentity.init();
         
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(';');
-            for(let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
-        
-        function eraseCookie(name) {   
-            document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-        }
-        
-        // 密码显示/隐藏功能
-        document.getElementById('toggleRegisterPassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('registerPassword');
-            const icon = this.querySelector('i');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        });
-        
-        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('confirmPassword');
-            const icon = this.querySelector('i');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        });
-        
-        // 显示错误信息
-        function showError(inputId, messageId, message) {
-            const input = document.getElementById(inputId);
-            const errorElement = document.getElementById(messageId);
-            
-            input.classList.remove('success');
-            input.classList.add('error');
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-        }
-        
-        // 隐藏错误信息
-        function hideError(messageId) {
-            const errorElement = document.getElementById(messageId);
-            errorElement.style.display = 'none';
-        }
-        
-        // 显示消息提示
-        function showAlert(alertId, message) {
-            const alertElement = document.getElementById(alertId);
-            alertElement.textContent = message;
-            alertElement.style.display = 'block';
-            
-            setTimeout(() => {
-                alertElement.style.display = 'none';
-            }, 5000);
-        }
-        
-        // 显示加载状态
-        function setLoading(isLoading) {
-            const button = document.getElementById('registerButton');
-            const loader = document.getElementById('registerLoader');
-            const buttonText = button.querySelector('span:not(.loader)');
-            
-            if (isLoading) {
-                loader.style.display = 'inline-block';
-                buttonText.textContent = '注册中...';
-                button.disabled = true;
-            } else {
-                loader.style.display = 'none';
-                buttonText.textContent = '注册';
-                button.disabled = false;
-            }
-        }
-        
-        // 表单验证
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-        
-        function validatePassword(password) {
-            const re = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
-            return re.test(password);
-        }
-        
-        // 注册表单处理
-        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const username = document.getElementById('registerUsername').value;
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
-            let isValid = true;
             
-            // 重置错误状态
-            hideError('usernameError');
-            hideError('emailError');
-            hideError('passwordError');
-            hideError('confirmPasswordError');
-            document.getElementById('registerUsername').classList.remove('error');
-            document.getElementById('registerEmail').classList.remove('error');
-            document.getElementById('registerPassword').classList.remove('error');
-            document.getElementById('confirmPassword').classList.remove('error');
-            
-            // 用户名验证（至少5位）
-            if (username.length < 5) {
-                showError('registerUsername', 'usernameError', '用户名至少需要5个字符');
-                isValid = false;
-            }
-            
-            // 邮箱验证
-            if (!validateEmail(email)) {
-                showError('registerEmail', 'emailError', '请输入有效的电子邮箱');
-                isValid = false;
-            }
-            
-            // 密码验证（至少6位，包含字母和数字）
-            if (!validatePassword(password)) {
-                showError('registerPassword', 'passwordError', '密码至少需要6位，包含字母和数字');
-                isValid = false;
-            }
-            
-            // 确认密码验证
             if (password !== confirmPassword) {
-                showError('confirmPassword', 'confirmPasswordError', '两次输入的密码不一致');
-                isValid = false;
+                alert('两次输入的密码不一致');
+                return;
             }
             
-            if (!isValid) return;
-            
-            // 显示加载状态
-            setLoading(true);
-            
-            try {
-                // 发送注册请求到后端
-                const response = await fetch('/.netlify/functions/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ username, email, password })
+            netlifyIdentity.signup(email, password)
+                .then(user => {
+                    alert('注册成功！请检查您的邮箱以验证账户。');
+                    window.location.href = 'login.html';
+                })
+                .catch(err => {
+                    alert('注册失败: ' + err.message);
                 });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    // 注册成功
-                    showAlert('registerSuccess', '注册成功！正在跳转到登录页面...');
-                    
-                    // 2秒后跳转到登录页面
-                    setTimeout(() => {
-                        window.location.href = 'login.html';
-                    }, 2000);
-                } else {
-                    // 注册失败
-                    showAlert('registerError', data.error || '注册失败，请稍后再试');
-                }
-            } catch (error) {
-                console.error('注册错误:', error);
-                showAlert('registerError', '网络错误，请稍后再试');
-            } finally {
-                setLoading(false);
-            }
         });
         
-        // 检查是否已登录
-        const token = getCookie("authToken");
-        if (token) {
-            // 验证token是否有效
-            fetch('/.netlify/functions/verify', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.valid) {
-                    // 已登录，跳转到首页
-                    window.location.href = 'index.html';
-                }
-            })
-            .catch(error => {
-                console.error('Token验证失败:', error);
-                // 清除无效的cookie
-                eraseCookie("authToken");
-                eraseCookie("username");
-                eraseCookie("userEmail");
-                eraseCookie("userId");
-            });
-        }
-        
-        // 汉堡菜单交互
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
         
-        if (hamburger) {
-            hamburger.addEventListener('click', () => {
-                navLinks.classList.toggle('active');
-            });
-            
-            // 点击页面其他区域关闭菜单
-            document.addEventListener('click', (e) => {
-                if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-                    navLinks.classList.remove('active');
-                }
-            });
-        }
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
