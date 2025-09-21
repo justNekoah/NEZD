@@ -59,6 +59,7 @@
         .nav-links {
             display: flex;
             list-style: none;
+            align-items: center;
         }
         
         .nav-links li {
@@ -91,6 +92,40 @@
         
         .nav-links a:hover::after {
             width: 100%;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+        }
+        
+        .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .logout-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: #ff5252;
         }
         
         .hamburger {
@@ -365,8 +400,15 @@
             <li><a href="products.html">产品</a></li>
             <li><a href="introduction.html">介绍</a></li>
             <li><a href="about.html">关于我们</a></li>
-            <li><a href="login.html">登录</a></li>
-            <li><a href="register.html">注册</a></li>
+            <li id="login-item"><a href="login.html">登录</a></li>
+            <li id="register-item"><a href="register.html">注册</a></li>
+            <li id="user-info-item" style="display: none;">
+                <div class="user-info">
+                    <div class="user-avatar" id="user-avatar">U</div>
+                    <span id="username">用户</span>
+                    <button class="logout-btn" onclick="logout()">退出</button>
+                </div>
+            </li>
         </ul>
         <div class="hamburger">
             <div></div>
@@ -479,20 +521,83 @@
     </footer>
 
     <script>
-        // 汉堡菜单交互
-        const hamburger = document.querySelector('.hamburger');
-        const navLinks = document.querySelector('.nav-links');
-        
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-        
-        // 点击页面其他区域关闭菜单
-        document.addEventListener('click', (e) => {
-            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-                navLinks.classList.remove('active');
+        // Cookie操作函数
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
             }
-        });
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+        
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+        
+        function eraseCookie(name) {   
+            document.cookie = name + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+        
+        // 检查登录状态
+        function checkLoginStatus() {
+            const username = getCookie("username");
+            const loginItem = document.getElementById("login-item");
+            const registerItem = document.getElementById("register-item");
+            const userInfoItem = document.getElementById("user-info-item");
+            const userAvatar = document.getElementById("user-avatar");
+            const usernameSpan = document.getElementById("username");
+            
+            if (username) {
+                // 用户已登录
+                loginItem.style.display = "none";
+                registerItem.style.display = "none";
+                userInfoItem.style.display = "block";
+                usernameSpan.textContent = username;
+                userAvatar.textContent = username.charAt(0).toUpperCase();
+            } else {
+                // 用户未登录
+                loginItem.style.display = "block";
+                registerItem.style.display = "block";
+                userInfoItem.style.display = "none";
+            }
+        }
+        
+        // 退出登录
+        function logout() {
+            eraseCookie("username");
+            eraseCookie("useremail");
+            checkLoginStatus();
+            alert("您已成功退出登录");
+        }
+        
+        // 页面加载时检查登录状态
+        window.onload = function() {
+            checkLoginStatus();
+            
+            // 汉堡菜单交互
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            
+            hamburger.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+            });
+            
+            // 点击页面其他区域关闭菜单
+            document.addEventListener('click', (e) => {
+                if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                    navLinks.classList.remove('active');
+                }
+            });
+        };
     </script>
 </body>
 </html>
