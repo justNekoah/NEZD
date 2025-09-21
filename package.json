@@ -1,0 +1,10 @@
+{
+  "name": "nezd-auth-system",
+  "version": "1.0.0",
+  "description": "No Error Zero Degree Studio Authentication System",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "uuid": "^9.0.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
