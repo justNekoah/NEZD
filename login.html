@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>登录 | No Error Zero Degree Studio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="https://cdn.auth0.com/js/auth0-spa-js/2.0/auth0-spa-js.production.js"></script>
     <style>
         :root {
             --primary: #2a2d43;
@@ -147,7 +147,7 @@
         }
         
         .auth-header p {
-            opacity: 0.8;
+            opacity: 极光8;
             font-size: 1.1rem;
         }
         
@@ -247,7 +247,7 @@
             position: relative;
         }
         
-        .auth-switch a::after {
+        .auth极光switch a::after {
             content: '';
             position: absolute;
             bottom: -2px;
@@ -277,7 +277,7 @@
         
         .alert-error {
             background: rgba(255, 107, 107, 0.15);
-            border: 1px solid var(--secondary);
+            border: 1极光solid var(--secondary);
             color: var(--secondary);
         }
         
@@ -294,23 +294,6 @@
         
         @keyframes spin {
             to { transform: rotate(360deg); }
-        }
-        
-        .forgot-password {
-            text-align: right;
-            margin-top: -1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .forgot-password a {
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-        
-        .forgot-password a:hover {
-            text-decoration: underline;
         }
         
         footer {
@@ -441,7 +424,7 @@
         <div class="auth-card">
             <div class="auth-header">
                 <h2>欢迎回来</h2>
-                <p>请输入您的账号信息登录系统</p>
+                <p>登录您的No Error Zero Degree Studio账号</p>
             </div>
             
             <div class="alert alert-error" id="loginError"></div>
@@ -451,20 +434,20 @@
                 <div class="form-group">
                     <label for="loginEmail">电子邮箱</label>
                     <input type="email" id="loginEmail" name="email" placeholder="请输入您的电子邮箱" required>
-                    <div class="error-message" id="loginEmailError">请输入有效的电子邮箱</div>
+                    <div class="error-message" id="emailError">请输入有效的电子邮箱</div>
                 </div>
                 
                 <div class="form-group password-toggle">
                     <label for="loginPassword">密码</label>
-                    <input type="password" id="loginPassword" name="password" placeholder="请输入您的密码" required>
+                    <input type="password" id="loginPassword" name="password" placeholder="请输入密码" required>
                     <span class="toggle-password" id="toggleLoginPassword">
                         <i class="far fa-eye"></i>
                     </span>
-                    <div class="error-message" id="loginPasswordError">密码不正确</div>
+                    <div class="error-message" id="passwordError">密码不能为空</div>
                 </div>
                 
                 <div class="forgot-password">
-                    <a href="#" id="forgotPasswordLink">忘记密码？</a>
+                    <a href="forgot-password.html" id="forgotPasswordLink">忘记密码？</a>
                 </div>
                 
                 <button type="submit" class="auth-submit" id="loginButton">
@@ -515,9 +498,16 @@
     </footer>
 
     <script>
-        // 初始化Netlify Identity
-        netlifyIdentity.init();
-        
+        // Auth0客户端配置
+        const auth0 = new auth0.WebAuth({
+            domain: 'YOUR_AUTH0_DOMAIN', // 替换为您的Auth0域名
+            clientID: 'YOUR_AUTH0_CLIENT_ID', // 替换为您的Auth0客户端ID
+            redirectUri: window.location.origin, // 重定向URI
+            audience: 'YOUR_AUTH0_AUDIENCE', // 可选：API标识符
+            responseType: 'token id_token',
+            scope: 'openid profile email'
+        });
+
         // 密码显示/隐藏功能
         document.getElementById('toggleLoginPassword').addEventListener('click', function() {
             const passwordInput = document.getElementById('loginPassword');
@@ -533,7 +523,7 @@
                 icon.classList.add('fa-eye');
             }
         });
-        
+
         // 显示错误信息
         function showError(message) {
             const errorElement = document.getElementById('loginError');
@@ -541,7 +531,7 @@
             errorElement.style.display = 'block';
             document.getElementById('loginSuccess').style.display = 'none';
         }
-        
+
         // 显示成功消息
         function showSuccess(message) {
             const successElement = document.getElementById('loginSuccess');
@@ -554,7 +544,7 @@
                 successElement.style.display = 'none';
             }, 5000);
         }
-        
+
         // 设置加载状态
         function setLoading(isLoading) {
             const button = document.getElementById('loginButton');
@@ -571,71 +561,93 @@
                 button.disabled = false;
             }
         }
-        
+
+        // 表单验证
+        function validateForm() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            let isValid = true;
+            
+            // 邮箱验证
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('emailError').style.display = 'none';
+            }
+            
+            // 密码验证
+            if (password.length === 0) {
+                document.getElementById('passwordError').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('passwordError').style.display = 'none';
+            }
+            
+            return isValid;
+        }
+
         // 登录表单处理
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
+            if (!validateForm()) {
+                return;
+            }
+            
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
-            if (!email) {
-                showError('请输入电子邮箱');
-                return;
-            }
-            
-            if (!password) {
-                showError('请输入密码');
-                return;
-            }
-            
             setLoading(true);
             
-            // 使用Netlify Identity进行登录
-            netlifyIdentity.login(email, password)
-                .then(user => {
-                    showSuccess('登录成功！正在跳转...');
-                    
-                    // 2秒后跳转到首页
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 2000);
-                })
-                .catch(err => {
-                    showError('登录失败: ' + err.message);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
+            // 使用Auth0进行登录
+            auth0.login({
+                email: email,
+                password: password,
+                realm: 'Username-Password-Authentication' // 使用密码验证领域
+            }, function(err, result) {
+                setLoading(false);
+                
+                if (err) {
+                    showError('登录失败: ' + err.description);
+                    return;
+                }
+                
+                showSuccess('登录成功！正在跳转...');
+                
+                // 2秒后跳转到首页
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            });
         });
-        
-        // 忘记密码功能
-        document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
-            e.preventDefault();
+
+        // 检查URL中的错误参数（例如，从Auth0回调）
+        function checkUrlForErrors() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            const errorDescription = urlParams.get('error_description');
             
-            const email = document.getElementById('loginEmail').value;
-            
-            if (!email) {
-                showError('请输入您的电子邮箱以重置密码');
-                return;
+            if (error) {
+                showError('认证错误: ' + (errorDescription || error));
+                // 清除URL参数
+                window.history.replaceState({}, document.title, window.location.pathname);
             }
-            
-            // 使用Netlify Identity请求密码重置
-            netlifyIdentity.requestPasswordRecovery(email)
-                .then(() => {
-                    showSuccess('密码重置链接已发送到您的邮箱，请查收');
-                })
-                .catch(err => {
-                    showError('发送失败: ' + err.message);
-                });
-        });
-        
-        // 检查是否已登录
-        const user = netlifyIdentity.currentUser();
-        if (user) {
-            // 如果用户已登录，直接跳转到首页
-            window.location.href = 'index.html';
         }
+
+        // 页面加载时检查错误
+        document.addEventListener('DOMContentLoaded', function() {
+            checkUrlForErrors();
+            
+            // 如果用户已登录，重定向到首页
+            auth0.checkSession({}, function(err, result) {
+                if (!err && result) {
+                    window.location.href = 'index.html';
+                }
+            });
+        });
     </script>
 </body>
 </html>
